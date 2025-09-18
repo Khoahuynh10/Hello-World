@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tạo App menu -->
+    <menuitem id="menu_library_root"
+            name="Library"
+            sequence="10"
+            />
+
+    <!-- Sub menu -->
+    <menuitem id="menu_library_books"
+              name="Books"
+              parent="menu_library_root"
+              action="action_library_books"
+              />
+</odoo>

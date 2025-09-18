@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Nhóm chỉ đọc -->
+    <record id="group_library_readonly" model="res.groups">
+        <field name="name">Library Read Only</field>
+    </record>
+    <record id="base.group_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('library.group_library_readonly'))]"/>
+    </record>
+
+
+    <!-- Nhóm chỉnh sửa (có thể assign sách) -->
+    <record id="group_library_editor" model="res.groups">
+        <field name="name">Library Editor</field>
+    </record>
+    <!-- <record id="rule_library_editor_restrict" model="ir.rule">
+        <field name="name">Library Editor can only edit borrower</field>
+        <field name="model_id" ref="model_library_book"/>
+        <field name="groups" eval="[(4, ref('library.group_library_editor'))]"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+    </record> -->
+
+
+    <!-- Nhóm full quyền -->
+    <record id="group_library_user" model="res.groups">
+        <field name="name">Library Manager</field>
+    </record>
+</odoo>
