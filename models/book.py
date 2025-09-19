@@ -15,11 +15,13 @@ class LibraryBook(models.Model):
         ('available', 'Đang rảnh'),
         ('borrowed', 'Đang được mượn'),]
     , string="Đang rảnh")
-
+    
     borrower_id = fields.Many2one(
         'res.users',
         string="Người mượn"
     )
+    borrowed_date = fields.Datetime(string="Borrowed Date", readonly=True)
+
     def write(self, vals):
         if self.env.user.has_group('library.group_library_editor'):
             allowed_fields = ['borrower_id']
@@ -29,12 +31,14 @@ class LibraryBook(models.Model):
         return super().write(vals)
 
 
-    # @api.model
-    # def _read_group_state(self, states, domain, order):
-    #     # Đảm bảo luôn có đủ 3 cột  
-    #     return [
-    #         ('available', 'Đang rảnh'),
-    #         ('borrowed', 'Đang được mượn'),
-    #         ('reading', 'Chỉ đọc tại chỗ'),
-    #     ]
+    @api.onchange('borrower_id')
+    def _onchange_borrower_id(self):
+        """ Tự động set ngày mượn khi assign borrower """
+        if self.borrower_id:
+            self.state = 'borrowed'
+            if not self.borrowed_date:
+                self.borrowed_date = fields.Datetime.now()
+        else:
+            self.state = 'available'
+            self.borrowed_date = False
 

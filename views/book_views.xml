@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Action -->    
+    <!-- Action xem full sach -->    
     <record id="action_library_books" model="ir.actions.act_window">
         <field name="name">Books</field>
         <field name="res_model">library.book</field>
         <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'default_state': 'available'}</field>
+    </record>
+
+    <!-- Action: Sách đang được assign cho mình -->
+    <record id="action_library_books_assigned_to_me" model="ir.actions.act_window">
+        <field name="name">My Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,kanban,form</field>
+        <!-- chỉ lấy sách có borrower_id = current user -->
+        <field name="domain">[('borrower_id', '=', uid)]</field>
+    </record>
+
+    <!-- Action: Sách đang rảnh (chưa assign cho ai) -->
+    <record id="action_library_books_available" model="ir.actions.act_window">
+        <field name="name">Available Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form</field>
+        <!-- chỉ lấy sách chưa có borrower -->
+        <field name="domain">[('borrower_id', '=', False)]</field>
         <field name="context">{'default_state': 'available'}</field>
     </record>
 
@@ -42,6 +61,7 @@
                 <field name="name"/>
                 <field name="author"/>
                 <field name="published_date"/>
+                <field name="borrowed_date"/>
             </list>
         </field>
     </record>
